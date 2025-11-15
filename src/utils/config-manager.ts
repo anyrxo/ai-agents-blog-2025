@@ -10,19 +10,25 @@ export class ConfigManager {
   private claudeConfigPath: string;
   private hubConfigPath: string;
 
-  constructor() {
-    // Claude Code config location
-    const home = os.homedir();
-    if (process.platform === 'darwin') {
-      this.claudeConfigPath = path.join(home, 'Library', 'Application Support', 'Claude', 'claude_desktop_config.json');
-    } else if (process.platform === 'win32') {
-      this.claudeConfigPath = path.join(process.env.APPDATA || '', 'Claude', 'claude_desktop_config.json');
+  constructor(customConfigPath?: string) {
+    if (customConfigPath) {
+      // Use custom path (for testing)
+      this.claudeConfigPath = customConfigPath;
     } else {
-      // Linux
-      this.claudeConfigPath = path.join(home, '.config', 'Claude', 'claude_desktop_config.json');
+      // Claude Code config location
+      const home = os.homedir();
+      if (process.platform === 'darwin') {
+        this.claudeConfigPath = path.join(home, 'Library', 'Application Support', 'Claude', 'claude_desktop_config.json');
+      } else if (process.platform === 'win32') {
+        this.claudeConfigPath = path.join(process.env.APPDATA || '', 'Claude', 'claude_desktop_config.json');
+      } else {
+        // Linux
+        this.claudeConfigPath = path.join(home, '.config', 'Claude', 'claude_desktop_config.json');
+      }
     }
 
     // MCP Hub config
+    const home = os.homedir();
     this.hubConfigPath = path.join(home, '.mcp-hub', 'config.json');
   }
 
@@ -37,6 +43,13 @@ export class ConfigManager {
       // If file doesn't exist, return empty config
       return { mcpServers: {} };
     }
+  }
+
+  /**
+   * Alias for readClaudeConfig (for convenience)
+   */
+  async getConfig(): Promise<MCPConfig> {
+    return this.readClaudeConfig();
   }
 
   /**
@@ -106,9 +119,22 @@ export class ConfigManager {
   /**
    * Mark package as installed
    */
-  async markInstalled(packageData: InstalledPackage): Promise<void> {
+  async markInstalled(packageDataOrName: InstalledPackage | string, version?: string): Promise<void> {
     const config = await this.readHubConfig();
-    config.installedPackages[packageData.name] = packageData;
+
+    if (typeof packageDataOrName === 'string') {
+      // Called with (name, version)
+      config.installedPackages[packageDataOrName] = {
+        name: packageDataOrName,
+        version: version || '1.0.0',
+        installedAt: new Date().toISOString(),
+        enabled: true
+      };
+    } else {
+      // Called with InstalledPackage object
+      config.installedPackages[packageDataOrName.name] = packageDataOrName;
+    }
+
     await this.writeHubConfig(config);
   }
 
