@@ -207,11 +207,12 @@ async function testDoctor() {
   log('\n📋 Test 7: System diagnostics', 'cyan');
 
   try {
-    const { stdout } = await runCommand('doctor');
+    const { stdout, stderr } = await runCommand('doctor');
+    const output = stdout + stderr; // Combine both stdout and stderr
     const checks = [
-      stdout.includes('Node.js'),
-      stdout.includes('npx'),
-      stdout.includes('Summary') || stdout.includes('Passed')
+      output.includes('Node.js'),
+      output.includes('npx'),
+      output.includes('Summary') || output.includes('Passed')
     ];
     const passed = checks.every(c => c);
     logTest('Doctor runs diagnostics', passed,
