@@ -45,7 +45,30 @@ program
 
     try {
       const scanner = new SecurityScanner();
-      const result = await scanner.scan(targetPath || process.cwd());
+      const scanPath = targetPath || process.cwd();
+
+      // Check if path is a file or directory
+      const fs = await import('fs/promises');
+      const stats = await fs.stat(scanPath);
+
+      let result;
+      if (stats.isFile()) {
+        // Scan single file
+        const issues = await scanner.scanFile(scanPath);
+        result = {
+          files: 1,
+          issues,
+          critical: issues.filter(i => i.severity === 'critical').length,
+          high: issues.filter(i => i.severity === 'high').length,
+          medium: issues.filter(i => i.severity === 'medium').length,
+          low: issues.filter(i => i.severity === 'low').length,
+          info: issues.filter(i => i.severity === 'info').length,
+          passed: issues.filter(i => i.severity === 'critical' || i.severity === 'high').length === 0
+        };
+      } else {
+        // Scan directory
+        result = await scanner.scan(scanPath);
+      }
 
       spinner.stop();
 

@@ -120,8 +120,8 @@ function runCommand(userInput) {
 `;
 
   try {
-    await createTestFile('cmd-injection.js', vulnerableCode);
-    const { stdout } = await runScan(TEST_DIR);
+    const filePath = await createTestFile('cmd-injection.js', vulnerableCode);
+    const { stdout } = await runScan(filePath); // Scan specific file, not directory
 
     const detected = stdout.includes('MCP001') &&
                      stdout.includes('Command Injection') &&
@@ -144,8 +144,8 @@ const PASSWORD = "super_secret_password_123";
 `;
 
   try {
-    await createTestFile('secrets.js', vulnerableCode);
-    const { stdout } = await runScan(TEST_DIR);
+    const filePath = await createTestFile('secrets.js', vulnerableCode);
+    const { stdout } = await runScan(filePath); // Scan specific file
 
     const detected = stdout.includes('MCP003') &&
                      stdout.includes('Hardcoded');
@@ -194,8 +194,8 @@ function readFile(filename) {
 `;
 
   try {
-    await createTestFile('path-traversal.js', vulnerableCode);
-    const { stdout } = await runScan(TEST_DIR);
+    const filePath = await createTestFile('path-traversal.js', vulnerableCode);
+    const { stdout } = await runScan(filePath); // Scan specific file
 
     const detected = stdout.includes('MCP002') &&
                      stdout.includes('Path');
@@ -219,8 +219,8 @@ async function fetchData(url) {
 `;
 
   try {
-    await createTestFile('network.js', vulnerableCode);
-    const { stdout } = await runScan(TEST_DIR);
+    const filePath = await createTestFile('network.js', vulnerableCode);
+    const { stdout } = await runScan(filePath); // Scan specific file
 
     const detected = stdout.includes('MCP009') &&
                      stdout.includes('Network');
@@ -244,8 +244,8 @@ function parseData(input) {
 `;
 
   try {
-    await createTestFile('deserialize.js', vulnerableCode);
-    const { stdout } = await runScan(TEST_DIR);
+    const filePath = await createTestFile('deserialize.js', vulnerableCode);
+    const { stdout } = await runScan(filePath); // Scan specific file
 
     const detected = stdout.includes('MCP006') &&
                      stdout.includes('Deserialization');
