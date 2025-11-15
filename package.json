@@ -1,6 +1,6 @@
 {
   "name": "mcp-hub",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "The npm for MCPs - Discover, install, and manage Model Context Protocol servers with ease",
   "main": "dist/index.js",
   "type": "module",
