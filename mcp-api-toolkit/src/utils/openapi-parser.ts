@@ -18,8 +18,9 @@ export class OpenAPIParser {
       }
 
       // Validate and dereference the spec
-      const api = await SwaggerParser.validate(spec as OpenAPISpec);
-      return api as OpenAPISpec;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const api = await (SwaggerParser as any).validate(spec);
+      return api as unknown as OpenAPISpec;
     } catch (error) {
       throw new Error(`Failed to parse OpenAPI spec: ${(error as Error).message}`);
     }
@@ -30,8 +31,9 @@ export class OpenAPIParser {
    */
   async parseFromUrl(url: string): Promise<OpenAPISpec> {
     try {
-      const api = await SwaggerParser.validate(url);
-      return api as OpenAPISpec;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const api = await (SwaggerParser as any).validate(url);
+      return api as unknown as OpenAPISpec;
     } catch (error) {
       throw new Error(`Failed to parse OpenAPI spec from URL: ${(error as Error).message}`);
     }
@@ -46,6 +48,7 @@ export class OpenAPIParser {
     summary?: string;
     description?: string;
     operationId?: string;
+    tags?: string[];
   }> {
     const endpoints: Array<{
       path: string;
@@ -53,6 +56,7 @@ export class OpenAPIParser {
       summary?: string;
       description?: string;
       operationId?: string;
+      tags?: string[];
     }> = [];
 
     for (const [path, pathItem] of Object.entries(spec.paths)) {
@@ -67,6 +71,7 @@ export class OpenAPIParser {
             summary: operation.summary,
             description: operation.description,
             operationId: operation.operationId,
+            tags: operation.tags,
           });
         }
       }

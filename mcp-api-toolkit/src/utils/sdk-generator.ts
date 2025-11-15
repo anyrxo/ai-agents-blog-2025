@@ -227,8 +227,8 @@ class ${className}:
     return endpoints;
   }
 
-  private groupByTag(endpoints: Array<{ tags?: string[] }>) {
-    const grouped: Record<string, typeof endpoints> = {};
+  private groupByTag<T extends { tags?: string[] }>(endpoints: Array<T>): Record<string, Array<T>> {
+    const grouped: Record<string, Array<T>> = {};
 
     for (const endpoint of endpoints) {
       const tag = endpoint.tags?.[0] || 'Default';

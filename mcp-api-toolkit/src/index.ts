@@ -11,9 +11,6 @@ import { OpenAPIParser } from './utils/openapi-parser.js';
 import { APIClient } from './utils/api-client.js';
 import { SDKGenerator } from './utils/sdk-generator.js';
 import { ApiRequestSchema, OpenAPISpec } from './types/api.js';
-import MarkdownIt from 'markdown-it';
-
-const md = new MarkdownIt();
 
 class APIToolkitServer {
   private server: Server;
@@ -54,28 +51,28 @@ class APIToolkitServer {
       try {
         switch (name) {
           case 'parse_openapi':
-            return await this.handleParseOpenAPI(args);
+            return await this.handleParseOpenAPI(args || {});
 
           case 'list_endpoints':
-            return await this.handleListEndpoints(args);
+            return await this.handleListEndpoints(args || {});
 
           case 'test_api_endpoint':
-            return await this.handleTestEndpoint(args);
+            return await this.handleTestEndpoint(args || {});
 
           case 'generate_sdk':
-            return await this.handleGenerateSDK(args);
+            return await this.handleGenerateSDK(args || {});
 
           case 'generate_mock_data':
-            return await this.handleGenerateMockData(args);
+            return await this.handleGenerateMockData(args || {});
 
           case 'generate_api_docs':
-            return await this.handleGenerateDocs(args);
+            return await this.handleGenerateDocs(args || {});
 
           case 'validate_api_response':
-            return await this.handleValidateResponse(args);
+            return await this.handleValidateResponse(args || {});
 
           case 'batch_test_endpoints':
-            return await this.handleBatchTest(args);
+            return await this.handleBatchTest(args || {});
 
           default:
             throw new Error(`Unknown tool: ${name}`);
@@ -102,7 +99,6 @@ class APIToolkitServer {
       : await this.parser.parseSpec(input);
 
     const summary = this.parser.generateSummary(spec);
-    const endpoints = this.parser.extractEndpoints(spec);
 
     return {
       content: [
@@ -133,6 +129,11 @@ class APIToolkitServer {
       endpoints = endpoints.filter(
         (ep) => ep.method === filterByMethod.toUpperCase()
       );
+    }
+
+    // Filter by tag if specified
+    if (filterByTag) {
+      endpoints = endpoints.filter((ep) => ep.tags?.includes(filterByTag));
     }
 
     const endpointsList = endpoints
@@ -293,6 +294,10 @@ ${result.warnings.length > 0 ? `Warnings:\n${result.warnings.map((w) => `  - ${w
     // Basic validation (can be enhanced with JSON Schema validator)
     const isValid = response !== null && response !== undefined;
 
+    // TODO: Implement proper JSON schema validation using the schema parameter
+    // For now, just check if response exists
+    console.log('Schema to validate against:', schema);
+
     return {
       content: [
         {
@@ -322,6 +327,11 @@ ${result.warnings.length > 0 ? `Warnings:\n${result.warnings.map((w) => `  - ${w
 
     const testBaseUrl = baseUrl || this.parser.getBaseUrl(parsedSpec);
 
+    // Filter by tag if specified
+    if (filterByTag) {
+      endpoints = endpoints.filter((ep) => ep.tags?.includes(filterByTag));
+    }
+
     // Only test GET endpoints for safety
     endpoints = endpoints.filter((ep) => ep.method === 'GET');
 
@@ -338,6 +348,7 @@ ${result.warnings.length > 0 ? `Warnings:\n${result.warnings.map((w) => `  - ${w
             method: endpoint.method as 'GET',
             url,
             headers,
+            timeout: 30000,
           },
           200
         );

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MCP API Toolkit - Comprehensive API development and testing MCP server for Claude Code">
+    <title>MCP API Toolkit - API Development for Claude Code</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .tagline {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .features {
+            background: white;
+            border-radius: 16px;
+            padding: 60px 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            color: #667eea;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            border-radius: 12px;
+            background: #f8f9fa;
+            transition: transform 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .code-example {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .code-example pre {
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .stat {
+            text-align: center;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .tagline {
+                font-size: 1.2em;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🚀 MCP API Toolkit</h1>
+            <p class="tagline">Comprehensive API Development & Testing for Claude Code</p>
+            <p style="margin-bottom: 30px;">Postman + OpenAPI + AI-Powered Testing, All Integrated</p>
+
+            <div class="cta-buttons">
+                <a href="https://github.com/yourusername/mcp-api-toolkit" class="btn btn-primary">
+                    Get Started
+                </a>
+                <a href="https://github.com/yourusername/mcp-api-toolkit#examples" class="btn btn-secondary">
+                    View Examples
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Powerful Tools</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">3</div>
+                <div class="stat-label">SDK Languages</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Type Safe</div>
+            </div>
+        </div>
+
+        <div class="features">
+            <h2>Powerful Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>OpenAPI Parsing</h3>
+                    <p>Import and validate OpenAPI/Swagger specifications from JSON, YAML, or URLs. Full schema validation and dereferencing support.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧪</div>
+                    <h3>API Testing</h3>
+                    <p>Execute HTTP requests with AI-powered insights. Track response times, validate status codes, and get performance warnings.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🛠️</div>
+                    <h3>SDK Generation</h3>
+                    <p>Automatically generate TypeScript, Python, and JavaScript client libraries from your OpenAPI specs. Production-ready code.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Documentation</h3>
+                    <p>Auto-generate beautiful markdown documentation from your API specifications. Keep docs always up-to-date.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎭</div>
+                    <h3>Mock Data</h3>
+                    <p>Generate realistic test data from JSON schemas. Perfect for testing before the backend is ready.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Batch Testing</h3>
+                    <p>Test multiple endpoints at once for smoke testing and API health checks. Get comprehensive reports.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <h2>Quick Example</h2>
+            <p style="margin-bottom: 20px; text-align: center;">Just ask Claude with natural language:</p>
+
+            <div class="code-example">
+                <pre>
+Parse this OpenAPI spec and generate a TypeScript SDK:
+
+https://api.example.com/openapi.json</pre>
+            </div>
+
+            <p style="margin: 30px 0; text-align: center;">Claude will:</p>
+            <ul style="max-width: 600px; margin: 0 auto; line-height: 2;">
+                <li>✅ Parse and validate the specification</li>
+                <li>✅ Extract all endpoints and schemas</li>
+                <li>✅ Generate a fully-typed TypeScript client</li>
+                <li>✅ Include all methods with proper types</li>
+                <li>✅ Add JSDoc comments and examples</li>
+            </ul>
+        </div>
+
+        <div class="features">
+            <h2>Installation</h2>
+            <div class="code-example">
+                <pre>npm install -g mcp-api-toolkit</pre>
+            </div>
+
+            <h3 style="margin: 30px 0 20px 0;">Configure Claude Code</h3>
+            <p style="margin-bottom: 15px;">Add to your MCP settings:</p>
+            <div class="code-example">
+                <pre>{
+  "mcpServers": {
+    "api-toolkit": {
+      "command": "mcp-api-toolkit"
+    }
+  }
+}</pre>
+            </div>
+        </div>
+
+        <div class="features">
+            <h2>Use Cases</h2>
+            <div class="feature-grid">
+                <div>
+                    <h3>🏗️ API Development</h3>
+                    <ul style="line-height: 2;">
+                        <li>Import existing specs</li>
+                        <li>Test during development</li>
+                        <li>Generate client libraries</li>
+                        <li>Create documentation</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>🔍 API Testing</h3>
+                    <ul style="line-height: 2;">
+                        <li>Validate responses</li>
+                        <li>Batch endpoint testing</li>
+                        <li>Performance metrics</li>
+                        <li>Mock data generation</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>🔗 API Integration</h3>
+                    <ul style="line-height: 2;">
+                        <li>Generate SDKs</li>
+                        <li>Test third-party APIs</li>
+                        <li>Validate contracts</li>
+                        <li>Document integrations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p style="font-size: 1.2em; margin-bottom: 10px;">Made with ❤️ for the Claude Code community</p>
+            <p>Open Source • MIT License</p>
+        </div>
+    </footer>
+</body>
+</html>
